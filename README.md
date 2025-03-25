@@ -35,7 +35,7 @@ ClaudeQML combines the powerful capabilities of Claude AI with QML and PySide6 t
 
 3. Install the required dependencies:
    ```bash
-   pip install PySide6 anthropic
+   pip install PySide6 requests anthropic
    ```
 
 4. Set up your Anthropic API key:
