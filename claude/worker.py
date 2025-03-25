@@ -70,6 +70,7 @@ Rectangle {
 4. Make sure the root element uses anchors.fill: parent if it doesn't already
 5. Make sure to include the necessary QML imports for new types that are added
 6. Always use real numbers for decimal values (use 0.5 instead of 0 when appropriate)
+7. Always use PathAngleArc instead of PathArc for arcs in Path elements
 
 Return ONLY the modified QML code without any explanation or markdown formatting."""
                 
@@ -255,6 +256,7 @@ Follow these style guidelines:
 8. Implement custom graphics with Canvas when appropriate
 9. Be precise with colors, try to match the exact colors from the image
 10. Always use real numbers for decimal values (use 0.5 instead of 0 when appropriate)
+11. Always use PathAngleArc instead of PathArc for arcs in Path elements
 
 Return ONLY the QML code without any explanation or markdown formatting."""
             
