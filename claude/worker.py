@@ -69,6 +69,7 @@ Rectangle {
 3. Make sure the code is suitable for a Loader component (no Window element)
 4. Make sure the root element uses anchors.fill: parent if it doesn't already
 5. Make sure to include the necessary QML imports for new types that are added
+6. Always use real numbers for decimal values (use 0.5 instead of 0 when appropriate)
 
 Return ONLY the modified QML code without any explanation or markdown formatting."""
                 
@@ -253,6 +254,7 @@ Follow these style guidelines:
 7. Use QtQuick.Controls 2 components for standard UI elements
 8. Implement custom graphics with Canvas when appropriate
 9. Be precise with colors, try to match the exact colors from the image
+10. Always use real numbers for decimal values (use 0.5 instead of 0 when appropriate)
 
 Return ONLY the QML code without any explanation or markdown formatting."""
             
