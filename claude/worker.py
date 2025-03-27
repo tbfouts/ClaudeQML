@@ -71,6 +71,9 @@ Rectangle {
 5. Make sure to include the necessary QML imports for new types that are added
 6. Always use real numbers for decimal values (use 0.5 instead of 0 when appropriate)
 7. Always use PathAngleArc instead of PathArc for arcs in Path elements
+8. If the user is creating a speedometer or gauge, it should have a start angle of -210 and sweep to 240
+9. If the user is creating a speedometer or gauge, the 0 value should have a start angle of -210 and sweep to 240
+10. If the user is creating a speedometer or gauge, the tick marks should have a start angle of -210 and sweep to 240
 
 Return ONLY the modified QML code without any explanation or markdown formatting."""
                 
