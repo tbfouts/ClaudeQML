@@ -85,18 +85,23 @@ def main():
         os.environ["ANTHROPIC_API_KEY"] = api_key
         print("API key set for this session.")
     
+    # Get project name first
+    print("\n===== Qt 6.8 Project Generator =====")
+    project_name = get_valid_project_name()
+    
     # Get reference image if needed
     print("\n===== Reference Image =====")
     reference_image_path = get_reference_image()
     if reference_image_path:
         print(f"Using reference image: {reference_image_path}")
         print("Claude will automatically generate QML to match this image.")
+        
+        # Send initial request to Claude before creating project structure
+        print("\n===== Contacting Claude AI =====")
+        print("Sending initial request to Claude...")
+        print("Please wait while Claude analyzes your image...")
     else:
         print("No reference image will be used.")
-        
-    # Get project name
-    print("\n===== Qt 6.8 Project Generator =====")
-    project_name = get_valid_project_name()
     
     # Create project structure
     content_qml_file = create_project_structure(project_name)

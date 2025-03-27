@@ -30,6 +30,8 @@ class ClaudeApiWorker(threading.Thread):
                 # If we have a reference image and haven't done the initial conversion, do it now
                 if self.reference_image_path and not self.initial_image_conversion_done:
                     self.initial_image_conversion_done = True
+                    # Send initial request to Claude before project structure is created
+                    self.controller.updatePromptStatus("Sending initial request to Claude...")
                     self.convert_image_to_qml()
                     continue
                 
