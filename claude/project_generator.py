@@ -5,7 +5,7 @@ import os
 from .api import ask_claude
 
 
-def create_project_structure(project_name):
+def create_project_structure(project_name, image_generated_qml=None):
     """Create a complete Qt project structure using Claude API"""
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     project_dir = os.path.join(base_dir, project_name)
@@ -103,7 +103,14 @@ Please provide only the complete Main.qml content without any explanation or mar
     
     # Generate Content.qml
     print("Generating Content.qml...")
-    content_qml_prompt = f"""Create a Content.qml file for a Qt 6.8 application with the following details:
+    
+    # If we have pre-generated QML from image analysis, use that instead of generating new content
+    if image_generated_qml:
+        print("Using pre-generated QML from image analysis...")
+        content_qml_content = image_generated_qml
+    else:
+        # Generate default Content.qml if no image-based QML is available
+        content_qml_prompt = f"""Create a Content.qml file for a Qt 6.8 application with the following details:
 - This file will be loaded by the Main.qml Loader
 - Create a Rectangle as the root element that fills its parent
 - Add a Text element centered in the rectangle with a welcome message for {project_name}
@@ -114,7 +121,9 @@ Please provide only the complete Main.qml content without any explanation or mar
 
 Please provide only the complete Content.qml content without any explanation or markdown formatting."""
 
-    content_qml_content, conversation_history = ask_claude(content_qml_prompt, conversation_history)
+        content_qml_content, conversation_history = ask_claude(content_qml_prompt, conversation_history)
+    
+    # Write Content.qml
     with open(content_qml_path, "w") as f:
         f.write(content_qml_content)
     

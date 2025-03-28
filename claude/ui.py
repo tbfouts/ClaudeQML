@@ -39,7 +39,7 @@ Window {
     Item {
         id: loadingIndicator
         anchors.fill: parent
-        visible: reloaderController.isLoading
+        visible: reloaderController.isLoading || reloaderController.isImageProcessing
         
         Rectangle {
             anchors.fill: parent
@@ -50,7 +50,7 @@ Window {
         BusyIndicator {
             id: busyIndicator
             anchors.centerIn: parent
-            running: reloaderController.isLoading
+            running: reloaderController.isLoading || reloaderController.isImageProcessing
             width: 100
             height: 100
         }
@@ -59,7 +59,7 @@ Window {
             anchors.top: busyIndicator.bottom
             anchors.topMargin: 20
             anchors.horizontalCenter: parent.horizontalCenter
-            text: "Generating QML..."
+            text: reloaderController.isImageProcessing ? "Analyzing image and generating QML..." : "Generating QML..."
             font.pixelSize: 16
             color: "#333333"
         }

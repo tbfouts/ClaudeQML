@@ -27,13 +27,9 @@ class ClaudeApiWorker(threading.Thread):
     def run(self):
         while self.running:
             try:
-                # If we have a reference image and haven't done the initial conversion, do it now
+                # Flag initial image conversion as done since it's now handled before project creation
                 if self.reference_image_path and not self.initial_image_conversion_done:
                     self.initial_image_conversion_done = True
-                    # Send initial request to Claude before project structure is created
-                    self.controller.updatePromptStatus("Sending initial request to Claude...")
-                    self.convert_image_to_qml()
-                    continue
                 
                 try:
                     prompt = self.prompt_queue.get(timeout=1)
