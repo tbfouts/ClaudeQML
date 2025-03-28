@@ -1,15 +1,4 @@
-"""
-UI and window creation utilities
-"""
-import os
-
-
-def create_main_window_qml(file_path):
-    """
-    Create the main window QML file
-    """
-    with open(file_path, "w") as f:
-        f.write("""import QtQuick
+import QtQuick
 import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -112,4 +101,4 @@ Window {
             }
         }
     }
-}""")
+}

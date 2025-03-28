@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 QMLaude - A Claude-powered QML Generator
-Entry point script
+Entry point script that launches the GUI application
 """
 import sys
 import os

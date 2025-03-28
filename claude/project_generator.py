@@ -2,22 +2,44 @@
 Project generation module
 """
 import os
+from PySide6.QtCore import Qt
 from .api import ask_claude
 
 
-def create_project_structure(project_name, image_generated_qml=None):
-    """Create a complete Qt project structure using Claude API"""
+def create_project_structure(project_name, image_generated_qml=None, gui_mode=True, log_callback=None):
+    """Create a complete Qt project structure using Claude API
+    
+    Args:
+        project_name: Name of the project
+        image_generated_qml: Pre-generated QML from image analysis
+        gui_mode: Whether to use GUI dialogs instead of CLI prompts
+        log_callback: Function to call for logging messages in GUI mode
+    """
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     project_dir = os.path.join(base_dir, project_name)
+    
+    # Helper function for logging
+    def log(message):
+        if gui_mode and log_callback:
+            log_callback(message)
+        print(message)
     
     # Initialize conversation history
     conversation_history = []
     
     # Create project directory
     if os.path.exists(project_dir):
-        overwrite = input(f"Project directory {project_name} already exists. Overwrite? (y/n): ").lower()
-        if overwrite != 'y':
-            return None
+        if gui_mode:
+            from PySide6.QtWidgets import QMessageBox
+            result = QMessageBox.question(None, "Project Exists", 
+                                       f"Project directory {project_name} already exists. Overwrite?",
+                                       QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+            if result != QMessageBox.Yes:
+                return None
+        else:
+            overwrite = input(f"Project directory {project_name} already exists. Overwrite? (y/n): ").lower()
+            if overwrite != 'y':
+                return None
     
     os.makedirs(project_dir, exist_ok=True)
     
@@ -28,7 +50,11 @@ def create_project_structure(project_name, image_generated_qml=None):
     content_qml_path = os.path.join(project_dir, "Content.qml")
     
     # Generate CMakeLists.txt
-    print("Generating CMakeLists.txt...")
+    if gui_mode:
+        from PySide6.QtWidgets import QApplication
+        QApplication.setOverrideCursor(Qt.WaitCursor)
+    
+    log("Generating CMakeLists.txt...")
     cmakelists_prompt = f"""Create a CMakeLists.txt file for a Qt 6.8 Quick application with the following details:
 - Project name: {project_name}
 - Minimum CMake version: 3.20
@@ -51,12 +77,23 @@ def create_project_structure(project_name, image_generated_qml=None):
 
 Please provide only the complete CMakeLists.txt content without any explanation or markdown formatting."""
 
-    cmakelists_content, conversation_history = ask_claude(cmakelists_prompt, conversation_history)
-    with open(cmakelists_path, "w") as f:
-        f.write(cmakelists_content)
+    try:
+        cmakelists_content, conversation_history = ask_claude(cmakelists_prompt, conversation_history)
+        if not cmakelists_content:
+            raise Exception("Failed to generate CMakeLists.txt")
+            
+        with open(cmakelists_path, "w") as f:
+            f.write(cmakelists_content)
+    except Exception as e:
+        log(f"Error generating CMakeLists.txt: {e}")
+        if gui_mode:
+            from PySide6.QtWidgets import QMessageBox
+            QMessageBox.critical(None, "Generation Error", f"Failed to generate CMakeLists.txt: {e}")
+            QApplication.restoreOverrideCursor()
+        return None
     
     # Generate main.cpp
-    print("Generating main.cpp...")
+    log("Generating main.cpp...")
     main_cpp_content = """#include <QGuiApplication>
 #include <QQmlApplicationEngine>
 int main(int argc, char *argv[])
@@ -83,7 +120,7 @@ int main(int argc, char *argv[])
         f.write(main_cpp_content)
     
     # Generate Main.qml
-    print("Generating Main.qml...")
+    log("Generating Main.qml...")
     main_qml_prompt = f"""Create a Main.qml file for a Qt 6.8 application with the following details:
 - The file will be the entry point for a {project_name} QML module
 - Create a main ApplicationWindow (not just Window) element with a title, width, and height
@@ -102,11 +139,11 @@ Please provide only the complete Main.qml content without any explanation or mar
         f.write(main_qml_content)
     
     # Generate Content.qml
-    print("Generating Content.qml...")
+    log("Generating Content.qml...")
     
     # If we have pre-generated QML from image analysis, use that instead of generating new content
     if image_generated_qml:
-        print("Using pre-generated QML from image analysis...")
+        log("Using pre-generated QML from image analysis...")
         content_qml_content = image_generated_qml
     else:
         # Generate default Content.qml if no image-based QML is available
@@ -127,18 +164,18 @@ Please provide only the complete Content.qml content without any explanation or 
     with open(content_qml_path, "w") as f:
         f.write(content_qml_content)
     
-    print(f"\nProject {project_name} created successfully in {project_dir}")
-    print("Directory structure:")
-    print(f"{project_name}/")
-    print(f"├── CMakeLists.txt")
-    print(f"├── main.cpp")
-    print(f"├── Main.qml")
-    print(f"└── Content.qml")
-    print("\nTo build the project:")
-    print(f"cd {project_name}")
-    print("mkdir build && cd build")
-    print("cmake ..")
-    print("make")
+    log(f"\nProject {project_name} created successfully in {project_dir}")
+    log("Directory structure:")
+    log(f"{project_name}/")
+    log(f"├── CMakeLists.txt")
+    log(f"├── main.cpp")
+    log(f"├── Main.qml")
+    log(f"└── Content.qml")
+    log("\nTo build the project:")
+    log(f"cd {project_name}")
+    log("mkdir build && cd build")
+    log("cmake ..")
+    log("make")
     
     return content_qml_path  # Return the path to the Content.qml file for QML reloading
 
