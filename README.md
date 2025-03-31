@@ -3,13 +3,9 @@
 ClaudeQML combines the powerful capabilities of Claude AI with QML and PySide6 to generate and iterate on QML interfaces based on text prompts or reference images.
 
 ## Demo
+Click the image below for a demonstration video:
 
-<div align="center">
-  <img src="images/ReferenceSpeedo.png" alt="Reference UI Example" width="400">
-  <br>
-  <strong>▶️ <a href="videos/Claude_QML_GUI.mp4">Watch Demo Video</a></strong>
-  <p>See how Claude QML Generator creates QML interfaces from reference images using AI</p>
-</div>
+[![Demo Video](https://vumbnail.com/1071065178.jpg)](https://vimeo.com/1071065178)
 
 ## Features
 
