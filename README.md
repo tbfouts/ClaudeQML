@@ -14,7 +14,6 @@ Click the image below for a demonstration video:
 - Modern GUI interface with side-by-side reference image and QML preview
 - Interactive development environment with real-time QML updates
 - Create complete Qt 6.8 projects with proper structure
-- Distributable as a standalone macOS application
 
 ## Prerequisites
 
