@@ -87,10 +87,6 @@ When you create a new project, ClaudeQML sets up a standard Qt 6.8 project struc
 - Project organization following Qt best practices
 - Ready-to-use development environment
 
-## License
-
-[MIT License](LICENSE)
-
 ## Acknowledgements
 
 This project leverages the capabilities of:
