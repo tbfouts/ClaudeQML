@@ -29,8 +29,10 @@ class QmlReloader(QObject):
         self.timer.setSingleShot(True)
         self.timer.timeout.connect(self.check_file)
         
-        # Set the content source initially
-        self.controller.set_content_source(content_qml_file)
+        # Set the content source initially with proper URL format
+        from PySide6.QtCore import QUrl
+        content_url = QUrl.fromLocalFile(content_qml_file).toString()
+        self.controller.set_content_source(content_url)
         
         # Start a timer to check if the background image processing is complete
         if self.image_processing_result is not None:
@@ -65,7 +67,10 @@ class QmlReloader(QObject):
             
             # Update the content source to trigger a reload
             self.controller.set_content_source("")
-            self.controller.set_content_source(self.content_qml_file)
+            
+            # Convert file path to proper URL format for Windows compatibility
+            file_url = QUrl.fromLocalFile(self.content_qml_file).toString()
+            self.controller.set_content_source(file_url)
             
             print("Content reload triggered")
         else:
@@ -88,7 +93,7 @@ class QmlReloader(QObject):
                     with open(self.content_qml_file, "w") as f:
                         f.write(self.image_processing_result.qml_content)
                     
-                    # Trigger a reload
+                    # Trigger a reload using the correct file URL format
                     self.check_file()
                     
                     # Update status message

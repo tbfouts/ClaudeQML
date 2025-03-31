@@ -22,6 +22,11 @@ class QmlReloaderController(QObject):
     
     def set_content_source(self, source):
         if self._content_source != source:
+            # For Windows compatibility, ensure we have a proper URL format
+            if source and not source.startswith(('file://', 'qrc://', 'http://', 'https://')):
+                from PySide6.QtCore import QUrl
+                source = QUrl.fromLocalFile(source).toString()
+                
             self._content_source = source
             self.contentChanged.emit()
     

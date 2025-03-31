@@ -178,7 +178,10 @@ Existing QML code:
                 generated_qml = generated_qml.strip()
                 
                 # Save generated QML to a debug file for inspection
-                with open("debug_qml_output.txt", "w") as debug_file:
+                # Use absolute path to avoid Windows path issues
+                debug_file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 
+                                            "debug_qml_output.txt")
+                with open(debug_file_path, "w", encoding="utf-8") as debug_file:
                     debug_file.write(generated_qml)
                 
                 # Write to the main content file
@@ -309,7 +312,10 @@ Return ONLY the QML code without any explanation or markdown formatting."""
             generated_qml = generated_qml.strip()
             
             # Save generated QML to a debug file for inspection
-            with open("debug_qml_output.txt", "w") as debug_file:
+            # Use absolute path to avoid Windows path issues
+            debug_file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 
+                                        "debug_qml_output.txt")
+            with open(debug_file_path, "w", encoding="utf-8") as debug_file:
                 debug_file.write(generated_qml)
             
             # Write to the main content file
