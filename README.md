@@ -2,13 +2,23 @@
 
 ClaudeQML combines the powerful capabilities of Claude AI with QML and PySide6 to generate and iterate on QML interfaces based on text prompts or reference images.
 
+## Demo
+
+<div align="center">
+  <img src="images/ReferenceSpeedo.png" alt="Reference UI Example" width="400">
+  <br>
+  <strong>▶️ <a href="videos/Claude_QML_GUI.mp4">Watch Demo Video</a></strong>
+  <p>See how Claude QML Generator creates QML interfaces from reference images using AI</p>
+</div>
+
 ## Features
 
 - Generate QML interfaces by describing what you want in plain text
 - Optionally use a reference image as inspiration for your QML UI
+- Modern GUI interface with side-by-side reference image and QML preview
 - Interactive development environment with real-time QML updates
 - Create complete Qt 6.8 projects with proper structure
-- Command-line interface for iterative QML generation
+- Distributable as a standalone macOS application
 
 ## Prerequisites
 
@@ -55,21 +65,24 @@ Run the application using:
 python claude_generator.py
 ```
 
-The application will guide you through:
-1. Setting up your API key (if not already set as an environment variable)
-2. Choosing whether to use a reference image
-3. Naming your project
-4. Creating the project structure
-5. Launching the QML generator interface
+### Using the GUI Interface
 
-Once launched, you can type QML generation prompts at the `QML>` prompt. The QML interface will update in real-time based on your instructions.
+1. The application will prompt for your Anthropic API key on first launch
+2. Click the "Select Reference Image" button to choose an image
+3. Name your project when prompted
+4. The reference image will appear on the left, and the QML preview on the right
+5. Enter QML generation or modification commands in the input box at the bottom
+6. The QML preview updates in real-time as you submit prompts
 
-Example prompts:
+### Example Prompts
+
 - "Create a login form with username and password fields"
 - "Add a gradient background from blue to purple"
 - "Make the buttons rounded with a hover effect"
+- "Increase the size of the gauge and add more tick marks"
+- "Change the color scheme to dark mode"
 
-Type `exit` to quit the application.
+The application securely stores your API key for future sessions.
 
 ## Project Structure
 
