@@ -89,8 +89,8 @@ class QmlReloader(QObject):
             if self.image_processing_result.qml_content:
                 print("Applying QML generated from reference image...")
                 try:
-                    # Write the QML content to the file
-                    with open(self.content_qml_file, "w") as f:
+                    # Write the QML content to the file with explicit UTF-8 encoding
+                    with open(self.content_qml_file, "w", encoding="utf-8") as f:
                         f.write(self.image_processing_result.qml_content)
                     
                     # Trigger a reload using the correct file URL format

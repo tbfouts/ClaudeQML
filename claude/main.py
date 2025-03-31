@@ -187,6 +187,9 @@ class ClaudeWindow(QMainWindow):
         # Add status bar
         self.statusBar().showMessage("Ready")
         
+        # Connect thread logging signal to log_message method
+        log_signals.log_message.connect(self.log_message)
+        
         # Initial log message
         self.log_message("Claude QML Generator started. Select a reference image to begin.")
     
@@ -523,13 +526,13 @@ Please provide ONLY the complete QML code, with no explanation or markdown forma
                 self.result.qml_content = generated_qml
                 self.result.is_complete = True
                 
-                # Log via QMetaObject.invokeMethod to safely call from thread
-                QApplication.instance().postEvent(self, StatusUpdateEvent("Image analysis complete. QML code generated."))
+                # Use signal to safely log from thread
+                log_signals.log_message.emit("Image analysis complete. QML code generated.")
                 
             except Exception as e:
                 self.result.error = str(e)
                 self.result.is_complete = True
-                QApplication.instance().postEvent(self, StatusUpdateEvent(f"Error processing reference image: {e}"))
+                log_signals.log_message.emit(f"Error processing reference image: {e}")
         
         # Start the thread
         image_thread = threading.Thread(target=process_image_thread)
@@ -581,6 +584,13 @@ class StatusUpdateEvent(QObject):
     def __init__(self, message):
         super().__init__()
         self.message = message
+        
+# Custom signal for thread-safe logging
+class LogSignals(QObject):
+    log_message = Signal(str)
+    
+# Create a global instance
+log_signals = LogSignals()
 
 
 def main():

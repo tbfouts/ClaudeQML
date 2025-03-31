@@ -184,8 +184,8 @@ Existing QML code:
                 with open(debug_file_path, "w", encoding="utf-8") as debug_file:
                     debug_file.write(generated_qml)
                 
-                # Write to the main content file
-                with open(self.content_qml_file, "w") as f:
+                # Write to the main content file with explicit UTF-8 encoding
+                with open(self.content_qml_file, "w", encoding="utf-8") as f:
                     f.write(generated_qml)
                 
                 self.controller.updatePromptStatus("QML code updated successfully!")
@@ -318,8 +318,8 @@ Return ONLY the QML code without any explanation or markdown formatting."""
             with open(debug_file_path, "w", encoding="utf-8") as debug_file:
                 debug_file.write(generated_qml)
             
-            # Write to the main content file
-            with open(self.content_qml_file, "w") as f:
+            # Write to the main content file with explicit UTF-8 encoding
+            with open(self.content_qml_file, "w", encoding="utf-8") as f:
                 f.write(generated_qml)
             
             self.controller.updatePromptStatus("QML generated from reference image!")
